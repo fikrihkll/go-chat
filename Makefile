@@ -25,6 +25,9 @@ swagger:
 docker:
 	docker-compose up -d
 
+docker-down:
+	docker-compose down
+
 run:
 	go run ./cmd/api/main.go
 
