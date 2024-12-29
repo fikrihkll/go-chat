@@ -1,0 +1,204 @@
+basePath: /
+definitions:
+  transport.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  transport.NewMessageByEmail:
+    properties:
+      member_email:
+        type: string
+      message:
+        type: string
+    type: object
+  transport.NewMessageByRoomID:
+    properties:
+      message:
+        type: string
+    type: object
+  transport.Register:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact:
+    email: fkrihkl@gmail.com
+    name: Fikri Haikal
+    url: https://github.com/fikrihkll
+  description: Go implemented api.
+  license:
+    name: Apache 2.0
+  title: Chat API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: gain access to API
+      parameters:
+      - description: Login detail
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/transport.Login'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: create new account
+      parameters:
+      - description: Register information
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/transport.Register'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      tags:
+      - auth
+  /auth/validate:
+    get:
+      consumes:
+      - application/json
+      description: check token validation
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      tags:
+      - auth
+  /chat/{room_id}/send:
+    post:
+      consumes:
+      - application/json
+      description: save new message
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: New message detail
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/transport.NewMessageByRoomID'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      security:
+      - BearerAuth: []
+      tags:
+      - chat
+  /chat/get:
+    get:
+      consumes:
+      - application/json
+      description: get message history
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: timestamp last message retrieved
+        in: query
+        name: time_after
+        required: true
+        type: string
+      - description: user that is in the same chat room
+        in: query
+        name: target_email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      tags:
+      - chat
+  /chat/rooms:
+    get:
+      consumes:
+      - application/json
+      description: get chat rooms that the user in
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      tags:
+      - chat
+  /chat/send:
+    post:
+      consumes:
+      - application/json
+      description: save new message
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: New message detail
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/transport.NewMessageByEmail'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      security:
+      - BearerAuth: []
+      tags:
+      - chat
+security:
+- BearerAuth: []
+swagger: "2.0"

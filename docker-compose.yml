@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  chat-postgree:
+    container_name: chat-postgree
+    image: postgres:15
+    restart: always
+    networks:
+      - go-cqrs
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root", "-d", "chat_db"]
+
+  chat-redis:
+    container_name: chat-redis
+    image: redis:6.2-alpine
+    restart: always
+    networks:
+      - go-cqrs
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+
+
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local
+
+networks:
+  go-cqrs:
+    driver: bridge
