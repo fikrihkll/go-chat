@@ -7,7 +7,7 @@ The Chat Application (Fluterr App) will mainly use MQTT to listen live update Me
 The actual purpose of using MQTT to handle live update message is just to adapt with MQTT technology.
 
 ### Why use Golang as the backend?
-This is my very first Golang project and this project is aimed for the preparation before joining Pinhome :D. Basically, I want to learn and get used to Golang syntax, commands and its architectures.
+This is my very first Golang project and this project is aimed for the preparation before joining *Pinhome* :D. Basically, I want to learn and get used to Golang syntax, commands and its architectures.
 
 ## Step To run the API
 
